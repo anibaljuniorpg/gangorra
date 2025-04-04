@@ -5,7 +5,8 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copiar o arquivo JAR gerado pelo Maven para dentro do container
-COPY target/*.jar app.jar
+COPY out/artifacts/gangorra__jar/gangorra.jar app.jar
+
 
 # Definir a porta que será exposta no container
 EXPOSE 8080
