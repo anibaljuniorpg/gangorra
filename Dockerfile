@@ -20,7 +20,8 @@ WORKDIR /app
 EXPOSE 8080
 
 # Copiar o .jar gerado da etapa de build
-COPY --from=build /app/out/artifacts/gangorra__jar/gangorra.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
+
 
 # Executar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
