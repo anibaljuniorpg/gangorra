@@ -1,15 +1,17 @@
-# Usar uma imagem do OpenJDK 17 com JDK
+FROM ubuntu:latest AS build
+
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
+
+RUN apt-get install maven -y
+RUN mvn clean install
+
 FROM openjdk:17-jdk-slim
 
-# Criar um diretório de trabalho dentro do container
-WORKDIR /app
-
-# Copiar o arquivo JAR gerado pelo Maven para dentro do container
-COPY out/artifacts/gangorra__jar/gangorra.jar app.jar
-
-
-# Definir a porta que será exposta no container
 EXPOSE 8080
 
-# Comando para rodar a aplicação
-CMD ["java", "-jar", "app.jar"]
+COPY --from=build /app/target/gangorra.jar app.jar
+
+
+ENTRYPOINT [ "java", "-jar", "app.jar" ]
